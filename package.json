@@ -1,0 +1,31 @@
+{
+  "name": "spotify-stats",
+  "version": "1.0.0",
+  "description": "Spotify Stats Cruncher - Analyze your music listening habits",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host stormshadow.tailnet-5416.ts.net",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "BuenGenio",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5",
+    "@headlessui/vue": "^1.7.16",
+    "@heroicons/vue": "^2.1.1",
+    "chart.js": "^4.4.1",
+    "vue-chartjs": "^5.3.0",
+    "axios": "^1.6.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.0.0"
+  }
+}
