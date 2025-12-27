@@ -254,3 +254,4 @@ Despite limitations, the app provides excellent insights:
 
 **Remember:** These limitations are from Spotify's API, not the app. We've built the best possible experience within these constraints! 🎵
 
+

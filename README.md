@@ -14,6 +14,11 @@ A beautiful web application to analyze and visualize your Spotify listening habi
 - ⏰ **Listening Patterns** - Analyze when and how you listen to music
 - 📄 **PDF Reports** - Generate and download detailed listening reports
 - 🎨 **Beautiful UI** - Modern, responsive design with Tailwind CSS
+- 🎉 **NEW: Historical Data Import** - Import your complete Spotify history with **actual play counts**!
+  - Upload extended streaming history JSON files
+  - See every song you've ever played with exact play counts
+  - Year-by-year analytics, skip rates, platform usage, listening streaks
+  - All data stored locally - no server uploads
 
 ## 🚀 Getting Started
 
@@ -204,4 +209,5 @@ If you encounter any issues or have questions:
 Made with ❤️ and ☕ by BuenGenio
 
 Enjoy exploring your music! 🎧
+
 

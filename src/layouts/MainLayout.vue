@@ -159,6 +159,8 @@ const navigation = [
   { name: 'Year in Tunes', path: '/year' },
   { name: 'Top Charts', path: '/tops' },
   { name: 'Listening Pulse', path: '/pulse' },
+  { name: 'Historical Stats', path: '/historical' },
+  { name: 'Import History', path: '/import' },
   { name: 'Reports', path: '/reports' },
 ]
 
@@ -184,4 +186,5 @@ onMounted(async () => {
   }
 })
 </script>
+
 

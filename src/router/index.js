@@ -41,6 +41,16 @@ const routes = [
         path: '/reports',
         name: 'Reports',
         component: () => import('../views/Reports.vue')
+      },
+      {
+        path: '/import',
+        name: 'HistoryImport',
+        component: () => import('../views/HistoryImport.vue')
+      },
+      {
+        path: '/historical',
+        name: 'HistoricalStats',
+        component: () => import('../views/HistoricalStats.vue')
       }
     ]
   }
@@ -63,4 +73,5 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+
 

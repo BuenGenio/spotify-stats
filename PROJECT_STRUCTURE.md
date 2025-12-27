@@ -216,3 +216,4 @@ App.vue
 4. Reactive data → Template rendering → Charts/UI
 5. User action → New API call → Update data → Re-render
 
+

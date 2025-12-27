@@ -4,6 +4,34 @@ All notable changes to the Spotify Stats project will be documented in this file
 
 ## [Unreleased]
 
+### Added - December 2025
+- **🎉 MAJOR FEATURE**: Extended Streaming History Import
+  - Import your complete Spotify history with actual play counts!
+  - IndexedDB storage for local data persistence
+  - Historical Stats view with comprehensive analytics
+  - Import History view with drag & drop file upload
+  - Analytics including:
+    - Top tracks/artists with actual play counts
+    - Year-by-year statistics
+    - Skip behavior analysis
+    - Platform usage breakdown
+    - Listening streaks (current & longest)
+    - Complete timeline from first ever play
+  - Multi-file JSON import support
+  - Duplicate detection
+  - Data management (clear all data)
+  - See `HISTORICAL_DATA_FEATURE.md` for complete documentation
+
+### Technical - December 2025
+- Added IndexedDB service (`src/services/db.js`)
+- Added history analytics service (`src/services/historyAnalytics.js`)
+- Added HistoryImport view component
+- Added HistoricalStats view component
+- Updated router with new routes
+- Updated navigation with new menu items
+
+## [Unreleased - Previous]
+
 ### Removed - December 2025
 - **BREAKING**: Removed `/audio-features` API dependency (deprecated by Spotify)
   - Removed `spotifyAPI.getAudioFeatures()` function
@@ -188,4 +216,5 @@ For issues, questions, or feature requests:
 **Maintained by:** BuenGenio  
 **License:** ISC  
 **Repository:** spotify-stats
+
 
