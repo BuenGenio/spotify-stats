@@ -204,6 +204,34 @@ If you encounter any issues or have questions:
 2. Review [Spotify API Documentation](https://developer.spotify.com/documentation/web-api/)
 3. Open an issue on GitHub
 
+## 📚 Documentation
+
+All documentation is in the [`/docs`](./docs) folder:
+
+**Getting Started:**
+- [Quick Start](./docs/QUICK_START.md) - 3-step setup
+- [Setup Guide](./docs/SETUP.md) - Detailed instructions
+- [Deployment](./docs/DEPLOYMENT.md) - Apache deployment
+
+**Features:**
+- [Features Overview](./docs/FEATURES.md) - Complete feature list
+- [Historical Data](./docs/HISTORICAL_DATA_FEATURE.md) - Import complete history
+- [Extended History Quick Start](./docs/EXTENDED_HISTORY_QUICKSTART.md) - Get started fast
+
+**Development:**
+- [Development Guide](./docs/DEVELOPMENT.md) - Dev documentation
+- [Project Structure](./docs/PROJECT_STRUCTURE.md) - Architecture
+- [Project Summary](./docs/PROJECT_SUMMARY.md) - Overview
+
+**Troubleshooting:**
+- [Callback Issues](./docs/CALLBACK_TROUBLESHOOTING.md) - OAuth troubleshooting
+- [API Limitations](./docs/SPOTIFY_API_LIMITATIONS.md) - Spotify API constraints
+- [Common Issues](./docs/TROUBLESHOOTING.md) - Solutions
+
+**Reference:**
+- [Changelog](./docs/CHANGELOG.md) - Version history
+- [Checklist](./docs/CHECKLIST.md) - Project status
+
 ---
 
 Made with ❤️ and ☕ by BuenGenio
