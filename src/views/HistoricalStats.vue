@@ -110,6 +110,18 @@
           >
             <div class="flex items-center space-x-4 flex-1 min-w-0">
               <span class="text-xl font-bold text-gray-400 w-8 text-center">{{ track.rank }}</span>
+              <img
+                v-if="track.image"
+                :src="track.image"
+                :alt="track.name"
+                class="w-12 h-12 rounded shadow-sm flex-shrink-0"
+                @error="track.image = null"
+              />
+              <div v-else class="w-12 h-12 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center">
+                <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                </svg>
+              </div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 truncate">{{ track.name || 'Unknown Track' }}</p>
                 <p class="text-sm text-gray-500 truncate">{{ track.artist || 'Unknown Artist' }}</p>
@@ -149,7 +161,21 @@
                 <div class="text-xs text-gray-500">plays</div>
               </div>
             </div>
-            <h4 class="font-medium text-gray-900 truncate">{{ artist.name }}</h4>
+            <div class="flex items-center space-x-3 mb-2">
+              <img
+                v-if="artist.image"
+                :src="artist.image"
+                :alt="artist.name"
+                class="w-12 h-12 rounded-full shadow-sm flex-shrink-0"
+                @error="artist.image = null"
+              />
+              <div v-else class="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0 flex items-center justify-center">
+                <svg class="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <h4 class="font-medium text-gray-900 truncate flex-1">{{ artist.name }}</h4>
+            </div>
             <p class="text-sm text-gray-500">{{ artist.uniqueTracks }} unique tracks</p>
             <p class="text-sm text-gray-500">{{ artist.totalMinutes.toLocaleString() }} minutes</p>
           </div>
@@ -241,6 +267,7 @@ import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import { db } from '../services/db'
 import { historyAnalytics } from '../services/historyAnalytics'
+import { spotifyAPI, spotifyAuth } from '../services/spotify'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -253,6 +280,7 @@ const yearlyStats = ref([])
 const skipStats = ref({})
 const streaks = ref(null)
 const platforms = ref([])
+const loadingImages = ref(false)
 
 const yearlyChartData = computed(() => ({
   labels: yearlyStats.value.map(y => y.year.toString()),
@@ -276,6 +304,78 @@ const yearlyChartOptions = {
     y: {
       beginAtZero: true
     }
+  }
+}
+
+const fetchTrackAndArtistImages = async () => {
+  try {
+    console.log('Fetching track and artist images...')
+
+    // Fetch track images
+    const trackUris = topTracks.value
+      .slice(0, 20)
+      .map(t => t.uri)
+      .filter(Boolean)
+
+    if (trackUris.length > 0) {
+      try {
+        const tracksData = await spotifyAPI.getTracks(trackUris)
+        const trackMap = new Map()
+        
+        tracksData.tracks.forEach(track => {
+          if (track?.album?.images?.[0]) {
+            trackMap.set(track.uri || `spotify:track:${track.id}`, track.album.images[1]?.url || track.album.images[0].url)
+          }
+        })
+
+        // Add images to tracks
+        topTracks.value.forEach(track => {
+          const image = trackMap.get(track.uri)
+          if (image) {
+            track.image = image
+          }
+          // Also try matching by track ID extracted from URI
+          if (!image && track.uri) {
+            const trackId = track.uri.replace('spotify:track:', '')
+            const foundTrack = tracksData.tracks.find(t => t.id === trackId)
+            if (foundTrack?.album?.images?.[0]) {
+              track.image = foundTrack.album.images[1]?.url || foundTrack.album.images[0].url
+            }
+          }
+        })
+
+        console.log(`✓ Fetched ${trackMap.size} track images`)
+      } catch (error) {
+        console.warn('Failed to fetch track images:', error)
+      }
+    }
+
+    // Fetch artist images
+    const artistNames = topArtists.value
+      .slice(0, 12)
+      .map(a => a.name)
+      .filter(Boolean)
+
+    if (artistNames.length > 0) {
+      try {
+        const artistMap = await spotifyAPI.searchArtists(artistNames)
+        
+        // Add images to artists
+        topArtists.value.forEach(artist => {
+          const artistData = artistMap.get(artist.name)
+          if (artistData?.images?.[0]) {
+            artist.image = artistData.images[1]?.url || artistData.images[0].url
+          }
+        })
+
+        console.log(`✓ Fetched ${artistMap.size} artist images`)
+      } catch (error) {
+        console.warn('Failed to fetch artist images:', error)
+      }
+    }
+
+  } catch (error) {
+    console.error('Error fetching images:', error)
   }
 }
 
@@ -307,6 +407,13 @@ onMounted(async () => {
     platforms.value = historyAnalytics.analyzePlatforms(allRecords)
 
     console.log('✓ Analysis complete')
+
+    // Fetch images if user is authenticated
+    if (spotifyAuth.isTokenValid()) {
+      loadingImages.value = true
+      await fetchTrackAndArtistImages()
+      loadingImages.value = false
+    }
 
     loading.value = false
   } catch (error) {
