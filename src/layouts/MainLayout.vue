@@ -81,20 +81,19 @@
 
         <DisclosurePanel class="border-b border-white/10 md:hidden">
           <div class="space-y-1 px-2 py-3 sm:px-3">
-            <DisclosureButton 
+            <router-link
               v-for="item in navigation" 
               :key="item.name" 
-              as="router-link"
               :to="item.path"
               :class="[
                 isCurrentRoute(item.path) 
                   ? 'bg-gray-900 text-white' 
                   : 'text-gray-300 hover:bg-gray-700 hover:text-white', 
-                'block rounded-md px-3 py-2 text-base font-medium'
+                'block rounded-md px-3 py-2 text-base font-medium w-full text-left'
               ]"
             >
               {{ item.name }}
-            </DisclosureButton>
+            </router-link>
           </div>
           <div class="border-t border-white/10 pt-4 pb-3">
             <div class="flex items-center px-5">
@@ -115,14 +114,12 @@
               </div>
             </div>
             <div class="mt-3 space-y-1 px-2">
-              <DisclosureButton 
-                as="a" 
-                href="#" 
-                @click.prevent="handleLogout"
-                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+              <button
+                @click="handleLogout"
+                class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
               >
                 Sign out
-              </DisclosureButton>
+              </button>
             </div>
           </div>
         </DisclosurePanel>
