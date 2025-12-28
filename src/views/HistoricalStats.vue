@@ -322,24 +322,21 @@ const fetchTrackAndArtistImages = async () => {
         const tracksData = await spotifyAPI.getTracks(trackUris)
         const trackMap = new Map()
         
+        // Create map of track ID to image URL
         tracksData.tracks.forEach(track => {
           if (track?.album?.images?.[0]) {
-            trackMap.set(track.uri || `spotify:track:${track.id}`, track.album.images[1]?.url || track.album.images[0].url)
+            const imageUrl = track.album.images[1]?.url || track.album.images[0].url
+            trackMap.set(track.id, imageUrl)
           }
         })
 
-        // Add images to tracks
+        // Add images to tracks by matching track ID from URI
         topTracks.value.forEach(track => {
-          const image = trackMap.get(track.uri)
-          if (image) {
-            track.image = image
-          }
-          // Also try matching by track ID extracted from URI
-          if (!image && track.uri) {
+          if (track.uri) {
             const trackId = track.uri.replace('spotify:track:', '')
-            const foundTrack = tracksData.tracks.find(t => t.id === trackId)
-            if (foundTrack?.album?.images?.[0]) {
-              track.image = foundTrack.album.images[1]?.url || foundTrack.album.images[0].url
+            const image = trackMap.get(trackId)
+            if (image) {
+              track.image = image
             }
           }
         })
