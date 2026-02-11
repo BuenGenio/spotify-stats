@@ -28,7 +28,7 @@
     "@capacitor/status-bar": "^8.0.0",
     "@headlessui/vue": "^1.7.16",
     "@heroicons/vue": "^2.1.1",
-    "axios": "^1.6.5",
+    "axios": "^1.13.5",
     "chart.js": "^4.4.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
